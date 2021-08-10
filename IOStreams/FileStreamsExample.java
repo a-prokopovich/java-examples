@@ -1,0 +1,41 @@
+package com.prokopovich.iostreams;
+
+import java.io.*;
+import java.util.Scanner;
+
+public class FileStreamsExample {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        File file = new File("FileStreamsExample.txt");
+        System.out.print("Enter the line: ");
+        String line = in.nextLine();
+        try {
+            writeLine(line, file);
+            String lineFromFile = readLine(file);
+            System.out.println("Read line from file: " + lineFromFile);
+        } catch (IOException e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+    }
+
+    public static void writeLine(String line, File file) throws IOException {
+        FileOutputStream fout = new FileOutputStream(file);
+        byte byteLine[] = line.getBytes();
+        fout.write(byteLine);
+        fout.close();
+        System.out.println("The line was successfully written to the file.");
+    }
+
+    public static String readLine(File file) throws IOException {
+        StringBuilder line = new StringBuilder();
+        FileInputStream fin = new FileInputStream(file);
+        int i = fin.read();
+        while (i != -1) {
+            line.append((char) i);
+            i = fin.read();
+        }
+        fin.close();
+        return line.toString();
+    }
+}
